@@ -30,4 +30,4 @@ This project uses http://semver.org/ version numbers.
 License
 -------
 
-This project is licensed under the `MIT License <./LICENSE>`_.
+This project is licensed under the `MIT License <./LICENSE.rst>`_.
