@@ -26,3 +26,6 @@ from .application import Application
 from .blueprint import Blueprint
 from .request_handler import RequestHandler
 from .template_loader import TemplateLoader
+
+
+__version__ = "0.0.0-alpha"
