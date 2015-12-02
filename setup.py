@@ -70,7 +70,6 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
         "Topic :: Communications",
-        "Topic :: Internet",
-        "Framework :: Tornado"
+        "Topic :: Internet"
         ],
     )
