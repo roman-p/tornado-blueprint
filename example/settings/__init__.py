@@ -36,6 +36,51 @@ class Account(RequestHandler):
         self.render(".account.html")
         return None
 
+class Profile(RequestHandler):
+    """
+    Returns the page for the account settings.
+    """
+
+    def get(self):
+        print("settings:profile:get")
+        if False:
+            self.write("Settings - Profile")
+            print(self.reverse_url(".profile"))
+            return None
+        self.render(".profile.html")
+        return None
+
+class Timezone(RequestHandler):
+    """
+    Returns the page for the account settings.
+    """
+
+    def get(self):
+        print("settings:profile:timezone:get")
+        if False:
+            self.write("Settings - Profile - Timezone")
+            print(self.reverse_url(".timezone"))
+            return None
+        self.render(".timezone.html")
+        return None
+
+def make_profile_blueprint():
+    curr_dir = os.path.abspath(os.path.dirname(__file__))
+
+    blueprint = Blueprint(
+        name="profile",
+        url_prefix="/profile",
+        template_path=os.path.join(curr_dir, "templates"),
+    )
+    blueprint.add_handlers(
+        ".*",
+        [
+            tornado.web.url("/", Profile, name="index"),
+            tornado.web.url("/timezone", Timezone, name="timezone")
+        ]
+    )
+
+    return blueprint
 
 def make_blueprint():
     """
@@ -55,4 +100,9 @@ def make_blueprint():
             tornado.web.url("/account", Account, name="account")
         ]
     )
+
+    #add child blueprints in parent initialization
+    sub_blueprint = make_profile_blueprint()
+    blueprint.register_blueprint(sub_blueprint)
+
     return blueprint

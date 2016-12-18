@@ -22,6 +22,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import tornado
+
 
 class Blueprint(object):
     """
@@ -42,6 +44,7 @@ class Blueprint(object):
         self.settings = settings
 
         self._handlers = list()
+        self.blueprints = dict()
         return None
 
     def add_handlers(self, host_pattern, host_handlers):
@@ -51,3 +54,24 @@ class Blueprint(object):
             (host_pattern, handler) for handler in host_handlers
         )
         return None
+
+    def register_blueprint(self, blueprint):
+        """
+        Registers a blueprint and it's handlers on the application.
+        """
+        assert blueprint.name not in self.blueprints
+        self.blueprints[blueprint.name] = blueprint
+        for host_pattern, spec in blueprint._handlers:
+
+            # Make sure, the request handlers always receive the blueprint,
+            # they are registered on as argument.
+            spec.kwargs["blueprint"] = blueprint
+
+            spec = tornado.web.url(
+                pattern = blueprint.url_prefix + spec.regex.pattern,
+                handler = spec.handler_class,
+                kwargs = spec.kwargs,
+                name = blueprint.name + "." + spec.name
+            )
+
+            self.add_handlers(host_pattern, [spec])
