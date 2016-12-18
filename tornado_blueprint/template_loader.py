@@ -48,10 +48,10 @@ class TemplateLoader(tornado.template.BaseLoader):
     to associate each loader with the blueprint.
     """
 
-    def __init__(self, *, application, blueprint=None, **kargs):
+    def __init__(self, application, blueprint=None, **kargs):
         """
         """
-        super().__init__(**kargs)
+        super(TemplateLoader, self).__init__(**kargs)
         self.application = application
         self.blueprint = blueprint
         return None

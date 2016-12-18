@@ -36,7 +36,7 @@ class Application(tornado.web.Application):
     def __init__(self, *args, **kargs):
         """
         """
-        super().__init__(*args, **kargs)
+        super(Application, self).__init__(*args, **kargs)
         self.blueprints = dict()
         return None
 

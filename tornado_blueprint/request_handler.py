@@ -36,7 +36,7 @@ class RequestHandler(tornado.web.RequestHandler):
     def __init__(self, application, request, blueprint=None, **kargs):
         """
         """
-        super().__init__(application=application, request=request, **kargs)
+        super(RequestHandler, self).__init__(application=application, request=request, **kargs)
         self.blueprint = blueprint
         return None
 
@@ -77,7 +77,7 @@ class RequestHandler(tornado.web.RequestHandler):
         """
         We add the *blueprint* object to the template namespace.
         """
-        namespace = super().get_template_namespace()
+        namespace = super(RequestHandler, self).get_template_namespace()
         namespace["blueprint"] = self.blueprint
         return namespace
 
@@ -110,7 +110,7 @@ class RequestHandler(tornado.web.RequestHandler):
         """
         if template_name.startswith("."):
             template_name = self.blueprint.name + template_name
-        return super().render_string(template_name, **kargs)
+        return super(RequestHandler, self).render_string(template_name, **kargs)
 
     def static_url(self, path, include_host=None, **kargs):
         """
@@ -119,7 +119,7 @@ class RequestHandler(tornado.web.RequestHandler):
             Use the StaticFileHandler of the blueprint. Check if we can
             achieve this, without overriding this method.
         """
-        return super().static_url(path, include_host, **kargs)
+        return super(RequestHandler, self).static_url(path, include_host, **kargs)
 
     def reverse_url(self, name, *args):
         """
@@ -139,4 +139,4 @@ class RequestHandler(tornado.web.RequestHandler):
         """
         if name.startswith("."):
             name = self.blueprint.name + name
-        return super().reverse_url(name, *args)
+        return super(RequestHandler, self).reverse_url(name, *args)
